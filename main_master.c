@@ -4,9 +4,9 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-// Program MASTER LEWY TY£
+// Program MASTER LEWY TYÂ£
 // Sterowanie W-S-A-D oraz spacja
-// Rozszerzone o obs³ugê czujników
+// Rozszerzone o obsÂ³ugÃª czujnikÃ³w
 
 #define 	START_SIZE			3
 #define		STOP_SIZE			3
@@ -185,7 +185,7 @@ void GPIOinit()
 	GPIO_Init(GPIOC, &gpio);
 
 	gpio.GPIO_Pin = GPIO_Pin_3;				// PWM_MOSTEKH
-	gpio.GPIO_Speed = GPIO_Speed_50MHz; 	// zwiêkszamy czêstotliwoœæ pracy pinów z domyœlnej 2MHz na 50Mhz
+	gpio.GPIO_Speed = GPIO_Speed_50MHz; 	// zwiÃªkszamy czÃªstotliwoÅ“Ã¦ pracy pinÃ³w z domyÅ“lnej 2MHz na 50Mhz
 	gpio.GPIO_Mode = GPIO_Mode_AF_PP; 		//funkcja alternatywna Push-Pull (PWM)
 	GPIO_Init(GPIOA, &gpio);
 
@@ -212,9 +212,9 @@ void UARTinit()
 
 	USART_StructInit(&uart);
 	uart.USART_BaudRate = 115200;			//standardowa predkosc transmisji
-//	uart.USART_Mode = USART_Mode_Rx;		//TYLKO ODBIERAMY - ¿eby DataRegister nie bra³ z wysy³ania, dla UART1
+//	uart.USART_Mode = USART_Mode_Rx;		//TYLKO ODBIERAMY - Â¿eby DataRegister nie braÂ³ z wysyÂ³ania, dla UART1
 	USART_Init(USART1, &uart);
-	uart.USART_Mode = USART_Mode_Tx;		//UART3 tylko wysy³a
+	uart.USART_Mode = USART_Mode_Tx;		//UART3 tylko wysyÂ³a
 	USART_Init(USART3, &uart);
 
 	USART_Cmd(USART1, ENABLE);
@@ -232,7 +232,7 @@ void TIMinit()
 	TIM_TimeBaseInit(TIM2, &tim);
 
 	TIM_OCStructInit(&channel);
-	channel.TIM_OCMode = TIM_OCMode_PWM1; 			//kana³y maj¹ pracowaæ w trybie PWM
+	channel.TIM_OCMode = TIM_OCMode_PWM1; 			//kanaÂ³y majÂ¹ pracowaÃ¦ w trybie PWM
 	channel.TIM_OutputState = TIM_OutputState_Enable;
 	TIM_OC4Init(TIM2, &channel);
 	TIM_Cmd(TIM2, ENABLE);
@@ -243,15 +243,15 @@ void DMAinit(){
 	//KONFIGURACJA DMA1 do odczytu wyniku konwersji
 	DMA_StructInit(&dma);
 	dma.DMA_PeripheralBaseAddr = (uint32_t)&USART1->DR;			//adres rejestru DataRegister UART1 (tam ostatnia konwersja)
-	dma.DMA_PeripheralInc = DMA_PeripheralInc_Disable;			//adres DR sta³y
+	dma.DMA_PeripheralInc = DMA_PeripheralInc_Disable;			//adres DR staÂ³y
 	dma.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;	//dane 8-bitowe
 	dma.DMA_MemoryBaseAddr = (uint32_t)tab_dma;					//adres docelowy - zmienna
-	dma.DMA_MemoryInc = DMA_MemoryInc_Enable;					//zapis w kolejne miejsce tablicy(nieprzydatne bo wysy³ka 1 bajtu)
+	dma.DMA_MemoryInc = DMA_MemoryInc_Enable;					//zapis w kolejne miejsce tablicy(nieprzydatne bo wysyÂ³ka 1 bajtu)
 	dma.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;			//dane 8-bitowe
-	dma.DMA_DIR = DMA_DIR_PeripheralSRC;						//USART2 Ÿród³em
+	dma.DMA_DIR = DMA_DIR_PeripheralSRC;						//USART2 Å¸rÃ³dÂ³em
 	dma.DMA_BufferSize = DATA_SIZE;								//1 bajt danych
-	dma.DMA_M2M = DMA_M2M_Enable;								//przesy³ z pamiêci do pamiêci
-	dma.DMA_Mode = DMA_Mode_Circular;							//tryb ci¹g³ego przesy³u
+	dma.DMA_M2M = DMA_M2M_Enable;								//przesyÂ³ z pamiÃªci do pamiÃªci
+	dma.DMA_Mode = DMA_Mode_Circular;							//tryb ciÂ¹gÂ³ego przesyÂ³u
 	dma.DMA_Priority = DMA_Priority_High;						//wysoki priorytet
 	DMA_Init(DMA1_Channel5, &dma);
 	DMA_Cmd(DMA1_Channel5, ENABLE);
@@ -447,20 +447,20 @@ void SysTick_Handler()
 	}
 
 	//CZUJNIKI/////////////////////////////////////////////////////////////////////////////////////////////////
-	if (/*(GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_3) == 1)&&*/(adc_value[lbnad]<vmax)&&(adc_value[lfnad]<vmax))
-		//TUTAJ WYRZUCA CI¥GLE BLOK_LEWO=1; DO SPRAWDZENIA dwa czujniki
+	/*if ((GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_3) == 1)&&(adc_value[lbnad]<vmax)&&(adc_value[lfnad]<vmax))
+		//TUTAJ WYRZUCA CIÂ¥GLE BLOK_LEWO=1; DO SPRAWDZENIA dwa czujniki
 		blok_lewo=0;
 	else
 		blok_lewo=1;
-	if (/*(GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_4) == 1)&&*/(adc_value[rbnad]<vmax)&&(adc_value[rfnad]<vmax))
+	if ((GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_4) == 1)&&(adc_value[rbnad]<vmax)&&(adc_value[rfnad]<vmax))
 		blok_prawo=0;
 	else
-		blok_prawo=1;
+		blok_prawo=1;*/
 	if ((GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_8) == 1)&&(GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_9) == 1))
 		blok_tyl=0;
 	else
 		blok_tyl=1;
-	if ((GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_14) == 1)&&(GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_15) == 1)&&(adc_value[rf]<vmax)&&(adc_value[lf]<vmax))
+	if ((GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_14) == 1)&&(GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_15) == 1)/*&&(adc_value[rf]<vmax)&&(adc_value[lf]<vmax)*/)
 		blok_przod=0;
 	else
 		blok_przod=1;
@@ -471,7 +471,7 @@ void delay_ms(int time)
 	timer_ms = time;
 	while (timer_ms) {};
 }
-void send_char3(char c)				//procedura wyslania znaku przez UART3 z Mastera do Slave'ów
+void send_char3(char c)				//procedura wyslania znaku przez UART3 z Mastera do Slave'Ã³w
 {
 	while (USART_GetFlagStatus(USART3, USART_FLAG_TXE) == RESET);	//czekamy az bufor nadawczy uart3 bedzie wolny
     	USART_SendData(USART3, c);
